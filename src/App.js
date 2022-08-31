@@ -1,10 +1,14 @@
+import { Nav, Bio, Gallery } from "./components";
 import "./App.css";
-import Nav from "./components/Nav";
 
 const App = () => {
   return (
     <>
       <Nav />
+      <div className="container">
+        <Bio />
+        <Gallery />
+      </div>
     </>
   );
 };
