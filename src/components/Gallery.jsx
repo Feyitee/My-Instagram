@@ -10,6 +10,9 @@ const Gallery = () => {
       url: await getPhotoUrl("#addPhotoInput"),
     });
   };
+  const removePhoto = (id) => {
+    db.gallery.delete(id);
+  };
 
   return (
     <>
@@ -18,10 +21,16 @@ const Gallery = () => {
         <i classsName="add-photo-button fas fa-plus-square" />
       </label>
       <section className="gallery">
+        {!allPhotos && <p>Loading</p>}
         {allPhotos.map((photo) => (
           <div className="item" key={photo.id}>
             <img src={photo.url} className="item-image" alt="" />
-            <button className="delete-button">Delete</button>
+            <button
+              className="delete-button"
+              onClick={() => removePhoto(photo.id)}
+            >
+              Delete
+            </button>
           </div>
         ))}
       </section>
