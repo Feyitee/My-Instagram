@@ -1,22 +1,20 @@
 import getPhotoUrl from "get-photo-url";
-import { useState } from "react";
-
+import { db } from "../dexie";
+import { useLiveQuery } from "dexie-react-hooks";
 const Gallery = () => {
-  const [allPhotos, setAllPhotos] = useState([]);
+  //Instead of using state, we use the UseLiveQuery
+  const allPhotos = useLiveQuery(() => db.gallery.toArray(), []);
 
-  // If what we only need is to add photos, we can just use array of strings, instead of array of objects.
-  // We wantto be able to delete photos that's why we are giving each photo an id.
-  const addPhoto = async () => {
-    const newPhoto = {
-      id: Date.now(),
+  const addPhotos = async () => {
+    db.gallery.add({
       url: await getPhotoUrl("#addPhotoInput"),
-    };
-    setAllPhotos([newPhoto, ...allPhotos]);
+    });
   };
+
   return (
     <>
       <input type="file" name="photo" id="addPhotoInput" />
-      <label htmlFor="addPhotoInput" onClick={addPhoto}>
+      <label htmlFor="addPhotoInput" onClick={addPhotos}>
         <i classsName="add-photo-button fas fa-plus-square" />
       </label>
       <section className="gallery">
